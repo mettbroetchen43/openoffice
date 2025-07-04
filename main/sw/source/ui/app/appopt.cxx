@@ -52,8 +52,8 @@
 #include <wrtsh.hxx>
 #include <IDocumentDeviceAccess.hxx>
 #include <uitool.hxx>
-#include <initui.hxx>					// fuer ::GetGlossaries()
-#include <fldbas.hxx>	   //fuer UpdateFields
+#include <initui.hxx>					// for ::GetGlossaries()
+#include <fldbas.hxx>	   //for UpdateFields
 #include <wview.hxx>
 #include <cfgitems.hxx>
 #include <prtopt.hxx>
@@ -66,7 +66,7 @@
 #include <unotools/lingucfg.hxx>
 #include <editeng/unolingu.hxx>
 #include <globals.hrc>
-#include <globals.h>		// globale Konstanten z.B.
+#include <globals.h>		// global Constants i.e.
 #include <svl/slstitm.hxx>
 #include "swabstdlg.hxx"
 #include <swwrtshitem.hxx>
@@ -84,7 +84,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 {
 	sal_Bool bTextDialog = (nId == SID_SW_EDITOPTIONS) ? sal_True : sal_False;
 
-	// hier werden die Optionen fuer die Web- und den Textdialog zusmmengesetzt
+	// Options for Web- and Textdialog will be put together here.
 		SwViewOption aViewOpt = *GetUsrPref(!bTextDialog);
 		SwMasterUsrPref* pPref = bTextDialog ? pUsrPref : pWebUsrPref;
 		//kein MakeUsrPref, da hier nur die Optionen von Textdoks genommen werden duerfen
@@ -93,7 +93,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 			pAppView = 0;
 		if(pAppView)
 		{
-		// wenn Text dann nicht WebView und umgekehrt
+		// if Text then not WebView vice versa
 			sal_Bool bWebView = 0 != PTR_CAST(SwWebView, pAppView);
 			if( (bWebView &&  !bTextDialog) ||(!bWebView &&  bTextDialog))
 			{
@@ -104,7 +104,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 		}
 
 	/********************************************************************/
-	/* Optionen/Bearbeiten  											*/
+	/* Options/Edit  											*/
 	/********************************************************************/
 	SfxItemSet*	pRet = new SfxItemSet (GetPool(),	FN_PARAM_DOCDISP,		FN_PARAM_ELEM,
 									SID_PRINTPREVIEW, 		SID_PRINTPREVIEW,
@@ -155,7 +155,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
     }
     else
     {
-/* 		Der Drucker wird jetzt von der TabPage erzeugt und auch geloescht
+/* 		The printer will be created and deleted by the TabPage 
  * 		SfxItemSet* pSet = new SfxItemSet( SFX_APP()->GetPool(),
 					SID_PRINTER_NOTFOUND_WARN, SID_PRINTER_NOTFOUND_WARN,
 					SID_PRINTER_CHANGESTODOC, SID_PRINTER_CHANGESTODOC,
@@ -217,7 +217,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 	}
 
 	/*-----------------01.02.97 11.13-------------------
-	Optionen fuer GridTabPage
+	Options for GridTabPage
 	--------------------------------------------------*/
 
 	SvxGridItem aGridItem( SID_ATTR_GRID_OPTIONS);
@@ -236,7 +236,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 	pRet->Put(aGridItem);
 
 	/*-----------------01.02.97 13.02-------------------
-		Optionen fuer PrintTabPage
+		Options for PrintTabPage
 	--------------------------------------------------*/
     const SwPrintData* pOpt = pAppView ?
                         &pAppView->GetWrtShell().getIDocumentDeviceAccess()->getPrintData() :
@@ -249,7 +249,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 	pRet->Put(aAddPrinterItem);
 
 	/*-----------------01.02.97 13.12-------------------
-		Optionen fuer Web-Hintergrund
+		Optionen for Web-Background
 	--------------------------------------------------*/
 	if(!bTextDialog)
 	{
@@ -258,7 +258,7 @@ SfxItemSet*	 SwModule::CreateItemSet( sal_uInt16 nId )
 
 #ifdef DBG_UTIL
 	/*-----------------01.02.97 13.02-------------------
-		Test-Optionen
+		Test-Options
 	--------------------------------------------------*/
 		SwTestItem aTestItem(FN_PARAM_SWTEST);
 		aTestItem.bTest1 = aViewOpt.IsTest1();
@@ -306,7 +306,7 @@ void SwModule::ApplyItemSet( sal_uInt16 nId, const SfxItemSet& rSet )
 								 : NULL;
 
 	/*---------------------------------------------------------------------
-			Seite Dokumentansicht auswerten
+			Evaluate Page Documentview
 	-----------------------------------------------------------------------*/
 	if( SFX_ITEM_SET == rSet.GetItemState( FN_PARAM_DOCDISP, sal_False, &pItem ))
 	{
@@ -334,7 +334,7 @@ void SwModule::ApplyItemSet( sal_uInt16 nId, const SfxItemSet& rSet )
 	}
 
 	/*---------------------------------------------------------------------
-				Elemente - Item auswerten
+				Evaluate Elements - Item
 	-----------------------------------------------------------------------*/
 
 	if( SFX_ITEM_SET == rSet.GetItemState( FN_PARAM_ELEM, sal_False, &pItem ) )
@@ -382,7 +382,7 @@ void SwModule::ApplyItemSet( sal_uInt16 nId, const SfxItemSet& rSet )
 
 
 	/*-----------------01.02.97 11.36-------------------
-		Hintergrund nur im WebDialog
+		Background only in WebDialog
 	--------------------------------------------------*/
 	if(SFX_ITEM_SET == rSet.GetItemState(RES_BACKGROUND))
 	{
@@ -392,7 +392,7 @@ void SwModule::ApplyItemSet( sal_uInt16 nId, const SfxItemSet& rSet )
 	}
 
 	/*--------------------------------------------------------------------
-			Seite Rastereinstellungen auswerten
+			Evaluate Grid Settings
 	----------------------------------------------------------------------*/
 
 	if( SFX_ITEM_SET == rSet.GetItemState( SID_ATTR_GRID_OPTIONS, sal_False, &pItem ))
@@ -422,7 +422,7 @@ void SwModule::ApplyItemSet( sal_uInt16 nId, const SfxItemSet& rSet )
 	}
 
 	//--------------------------------------------------------------------------
-	//	 	Writer Drucker Zusatzeinstellungen auswerten
+	//	 	Writer Evalute additional settings for printer
 	//----------------------------------------------------------------------------
 
 	if( SFX_ITEM_SET == rSet.GetItemState( FN_PARAM_ADDPRINTER, sal_False, &pItem ))
@@ -465,7 +465,7 @@ void SwModule::ApplyItemSet( sal_uInt16 nId, const SfxItemSet& rSet )
 
 #ifdef DBG_UTIL
 	/*--------------------------------------------------------------------------
-				Writer Testseite auswerten
+				Writer Evaluate Testpage
 	----------------------------------------------------------------------------*/
 
 			if( SFX_ITEM_SET == rSet.GetItemState(
